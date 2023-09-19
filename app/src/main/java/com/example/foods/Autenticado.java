@@ -7,20 +7,24 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Autenticado extends AppCompatActivity {
     TextView text;
-    SearchView Search;
-    ListView Lista;
-    ArrayList<String> lista = new ArrayList<>();
-    ArrayAdapter<String> arrayAdapter;
+    private ChipGroup chip_Group;
+    private Button btnPronto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,31 +37,25 @@ public class Autenticado extends AppCompatActivity {
 
         text.setText("Olá, "+ nomeRecebido);
 
-        Search = findViewById(R.id.searchView);
-        Lista = findViewById(R.id.ListView);
-        lista.add("Texto 1");
-        lista.add("Texto 2");
-        lista.add("Texto 3");
-        lista.add("Texto 4");
-        lista.add("Texto 5");
-        lista.add("Texto 6");
-        arrayAdapter = new ArrayAdapter<String>(
-                getApplicationContext(),
-                android.R.layout.simple_list_item_1,lista
-        );
-        Lista.setAdapter(arrayAdapter);
-        Lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        "Cliquei",
-                        Toast.LENGTH_SHORT
-                ).show();
+        chip_Group = findViewById(R.id.chipGroup);
+        btnPronto = findViewById(R.id.btn_pronto);
 
+        btnPronto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int selectedId = chip_Group.getCheckedChipId();
+                if (selectedId != View.NO_ID) {
+                    Chip selectedChip = findViewById(selectedId);
+                    String selectedGenre = selectedChip.getText().toString();
+
+                    Intent intent = new Intent(Autenticado.this, MusicasRelacionadasActivity.class);
+                    intent.putExtra("selectedGenre", selectedGenre);
+                    startActivity(intent);
+                }
             }
         });
 
-
     }
+
 }

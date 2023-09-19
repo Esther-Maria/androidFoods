@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Foods">
         <activity
+            android:name=".MusicasRelacionadasActivity"
+            android:exported="true" />
+        <activity
             android:name=".EsqueciSenha"
             android:exported="true" />
         <activity
